@@ -143,7 +143,7 @@ DATABASES = {
         #'ENGINE': 'sql_server.pyodbc',
         'ENGINE': 'mssql',
         'NAME': 'miBaseDeDatosDeEjemplo',
-        "HOST": "Server=tcp:pruebamonsterapp.database.windows.net",
+        "HOST": "tcp:pruebamonsterapp.database.windows.net",
         #"HOST": "localhost",
         # 'HOST':'127.0.0.1',        
         "USER": "marlon",
