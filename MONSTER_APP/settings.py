@@ -142,15 +142,15 @@ DATABASES = {
     'default': {         
         #'ENGINE': 'sql_server.pyodbc',
         'ENGINE': 'mssql',
-        'NAME': 'dgango_st',
-        "HOST": "DESKTOP-5519JQA",
+        'NAME': 'miBaseDeDatosDeEjemplo',
+        "HOST": "Server=tcp:pruebamonsterapp.database.windows.net",
         #"HOST": "localhost",
         # 'HOST':'127.0.0.1',        
-        "USER": "django",
+        "USER": "marlon",
         "PASSWORD": "Hassan0605*",
-        "PORT": "",
+        "PORT": "1433",
         "OPTIONS": {
-            "driver": "ODBC Driver 17 for SQL Server"
+            "driver": "ODBC Driver 18 for SQL Server"
         },
         
     }
