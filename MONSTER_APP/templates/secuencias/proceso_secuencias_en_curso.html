@@ -76,8 +76,9 @@
                           {% if item.status == "Ensayo" %} <div class="badge bg-info text-dark rounded-pill">Ensayo</div>{% endif %}
                         </td>
                         <td>
-                          {% if perms.Secuencias.view_usuario_impresion %}
-                          {% if item.status == "Revisada" %}
+                          {% for group in request.user.groups.all %}
+                          {% if group.name == 'Analista' %}       
+                                  {% if item.status == "Revisada" %}
                           <span><input type="checkbox" name="imprimir" id="id"  value="{{item.id}}" title="Imprimir"></span>
                             {% endif %}
                             {% if item.status == "Impresa" %}
@@ -93,13 +94,17 @@
                             <span><input type="checkbox" disabled name="" id="id4"  value="{{item.id}}" title=""></span>
                             {% endif %}
                             {% endif %}
-                            {% if perms.Secuencias.view_usuario_auditor %}
-                            {% if item.status == "Reportada" %}
+                            {% endfor %}
+                            {% for group in request.user.groups.all %}
+                            {% if group.name == 'Auditor' %}       
+                              {% if item.status == "Reportada" %}
                             <span><input type="checkbox" name="auditar" id="id5"  value="{{item.id}}" title="Auditar"></span>
                             {% else %}
                             <span><input type="checkbox" disabled  name="auditar" id="id6"  value="{{item.id}}"></span>
                             {% endif %}
-                        {%   endif%}  </td>
+                        {%   endif %} 
+                        {% endfor %}
+                       </td>
                                               </tr>
 <!-- --------OBSERVACION Modal Inicio ---------------------------------------------->
      <div   data-backdrop="hidden" data-backdrop="false"  class="modal fade" id="observacion_secuencia{{ item.pk }}" tabindex="-1" aria-labelledby="modal_validar" aria-hidden="true">
@@ -174,11 +179,12 @@
                         <b>Impresa por/fecha</b> <a class="float-right">{{item.imprimir}}/{{item.fecha_impresion}}</a>
                         {% endif %}
                         </li>
-                        {% if item.status == "Reportada" or item.status == "Auditada" or item.status == "Ensayo" %} 
+                        {% if item.status == "Reportada" or item.status == "Auditada"  %} 
                         <li class="list-group-item">
                           
                           <b>Reportada por/fecha</b> <a class="float-right">{{item.reportar}}/{{item.fecha_reporte}}</a>
                           {% endif %} 
+                        </li>
                           {% if item.status  == "Auditada" %}
                           <li class="list-group-item">
                             <b>Auditada por/fecha</b> <a class="float-right">{{item.auditar}}/{{item.fecha_auditada}}</a>

@@ -25,12 +25,12 @@
         <div class="shadow-sm overflow-hidden rounded " style="background-color: #1b3d70c2; ">
           <h5 class="text-white text-center  "><br>Editar Secuencia</h5>
      </div>
-        <div class="bg-white border rounded shadow-sm overflow-hidden">
+     <div class=" border rounded shadow-sm overflow-hidden" style="background-color: rgba(252, 252, 252, 0.529);">
 
           <form action="" iname="myFormEditar" id="myFormEditar" method="POST">    {% csrf_token %}
             {% for item in sq  %}
           
-            <div class="row gy- gy-xl-1 p- p-xl-4">
+            <div class="row gy-4 gy-xl-1 p-4 p-xl-4">
               <div class="col-12 col-md-6">
                 <label>Fecha de Inicio</label>
                 <input value="{{item.fecha_Inicio|date:'Y-m-d H:i'}}" type="datetime-local" name="fecha_Inicio" class="numberinput form-control gj-textbox-md" id="fecha_Inicio" width="" data-datepicker="true"> 

@@ -77,7 +77,7 @@
             </a>
             <br>
             <small>
-            Fecha de ingreso {{p.fecha_ingreso}}
+             Fecha de estado actual: {{p.fecha_final}}
             </small>
             </td>
             <td>
@@ -102,13 +102,14 @@
             <i class="fas fa-folder">
             </i> Revisar
             </a>
-            {% if perms.auth.view_user %}
+            {% for group in request.user.groups.all %}
+            {% if group.name == 'Administrador' %}       
             <a class="btn btn-info btn-sm" href= "/editar_protocolo_proceso/{{p.pk}}"> 
             <i class="fas fa-pencil-alt">
             </i> Editar
-           
             </a>
             {% endif %}
+            {% endfor %}
             </td>
            
             </tr>

@@ -27,11 +27,11 @@
         <div class="shadow-sm overflow-hidden rounded " style="background-color: #1b3d70c2; ">
           <h5 class="text-white text-center  "><br>Editar Muestras</h5>
      </div>
-        <div class="bg-white border rounded shadow-sm overflow-hidden">
+     <div class=" border rounded shadow-sm overflow-hidden" style="background-color: rgba(252, 252, 252, 0.529);">
 
           <form action="" id="myModelForm" method="POST">    {% csrf_token %}
           
-            <div class="row gy- gy-xl-1 p- p-xl-4">
+            <div class="row gy-4 gy-xl-1 p-4 p-xl-4">
               <div class="col-12">
                 {{ form.nombre_muestra|as_crispy_field  }}
               </div>

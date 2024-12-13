@@ -45,7 +45,9 @@
                 {{ form.parametro_sq|as_crispy_field  }}
                 {{ form.metodo|as_crispy_field  }}
                 {{ form.muestras|as_crispy_field  }}
-                {{ form.fecha_invalidar|as_crispy_field  }}
+                <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
+                <input value="" type="text" name="fecha_invalidar" class="numberinput form-control gj-textbox-md " id="fecha_invalidar" width="" data-datepicker="true" style="display: none;" > 
+                <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
                 {{ form.fecha_validar|as_crispy_field  }}
                 {{ form.fecha_impresion|as_crispy_field  }}
                 {{ form.fecha_reporte|as_crispy_field  }}
@@ -81,7 +83,9 @@
               {{ form.parametro_sq|as_crispy_field  }}
               {{ form.metodo|as_crispy_field  }}
               {{ form.muestras|as_crispy_field  }}
-              {{ form.fecha_invalidar|as_crispy_field  }}
+              <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
+              <input value="" type="text" name="fecha_invalidar" class="numberinput form-control gj-textbox-md "  id="fecha_invalidar" width="" data-datepicker="true" style="display: none;" > 
+              <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
               {{ form.fecha_validar|as_crispy_field  }}
               {{ form.fecha_impresion|as_crispy_field  }}
               {{ form.fecha_reporte|as_crispy_field  }}

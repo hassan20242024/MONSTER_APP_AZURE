@@ -139,8 +139,9 @@
       </li>
       {% endif %}
 
-       {% if user.is_authenticated and perms.auth.view_user %}
-      <li class="nav-header"><strong>AJUSTES</strong></li>
+      {% for group in request.user.groups.all %}
+      {% if group.name == 'Administrador' %}       
+     <li class="nav-header"><strong>AJUSTES</strong></li>
       <li class="nav-item ">
         <a href="{% url 'configuracion_protocolo_metodos' %}" class="nav-link">
           <i class="fas fa-cogs"></i>
@@ -148,35 +149,23 @@
            <p>Configuración de Protoclos</p><br>
          </a>
        </li>
-       {% endif %}
 
-       {% if user.is_superuser %}
-       
-             <li class="nav-item">
+        <li class="nav-item">
         <a href="{% url 'admin:index' %}" class="nav-link text-white">
           <i class="fas fa-wrench"></i>
           <p>Administración</p>
         </a>
       </li>
-
       {% endif %}
-
-      
-
-
-
-     
-        
-     <!--
+      {% endfor %}
+      {% if user.is_superuser %}
       <li class="nav-item">
-        <a href="{% url 'sign_up' %}" class="nav-link text-white">
-          <i class="far fa-address-card"></i>
-          <p>Registrar Usuario</p>
-        </a>
-      </li> 
-     -->
-  
-
+      <a href="{% url 'admin:index' %}" class="nav-link text-white">
+      <i class="fas fa-wrench"></i>
+       <p>Administración</p>
+      </a>
+      </li>
+      {% endif %}
 
 
     </nav>

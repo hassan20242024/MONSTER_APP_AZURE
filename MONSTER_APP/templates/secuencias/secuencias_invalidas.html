@@ -26,17 +26,19 @@
                   </div>
             </div>
         </div>
-                <div class="col-md-6" >
-                  <br>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                      <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                        <button type="button" style="background:#486af3b8" class="btn btn-primary" data-toggle="collapse" data-target="#validarChecked" data-target="#demo2" aria-controls="demo2" id="botonValidarSecuencia"  colspan="" onclick="ocultarPe()"><span class="fa fa-thumbs-up"></span> Validar</button>
-                      
-                      </div>
-    
-                      </div>
-            </div>
-              </div><br>
+        <div class="col-md-6" >
+          <br>
+          {% for group in request.user.groups.all %}
+          {% if group.name == 'Analista' %}       
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <button type="button" style="background:#486af3b8" class="btn btn-primary" data-toggle="collapse" data-target="#validarChecked" data-target="#demo2" aria-controls="demo2" id="botonValidarSecuencia"  colspan="" onclick="ocultarPe()"><span class="fa fa-thumbs-up"></span> Validar</button>
+              </div>
+              </div>
+          {% endif %}
+          {% endfor %}    
+    </div>
+      </div><br>
                 </div>
             <div class="card">
               <div class="container-fluid">

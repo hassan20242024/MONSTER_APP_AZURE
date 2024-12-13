@@ -27,7 +27,7 @@
         <div class="col-md-6"><br>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 
-                <a href="{% url 'ingresar_muestras' %}" class="btn btn-primary" style="background:#486af3b8"><span class="fa fa-plus-circle"></span>Ingresar muestras</a>
+                <a href="{% url 'ingresar_muestras' %}" class="btn btn-primary" style="background:#486af3b8"><span class="fa fa-plus-circle"></span> Ingresar muestras</a>
                
                 </div>
 
@@ -86,17 +86,15 @@
             <td class="all text-center">
               <a class="btn btn-primary btn-sm" href="/duplicar_muestras/{{p.pk}}" title="Guardar como">
                 <i class="fa fa-clone" aria-hidden=""></i> </a>
-              {% if perms.auth.view_user %}
-              <a class="btn btn-info btn-sm" href= "/editar_muestras/{{p.pk}}" title="editar"> 
+                {% for group in request.user.groups.all %}
+                {% if group.name == 'Administrador' %}       
+            <a class="btn btn-info btn-sm" href= "/editar_muestras/{{p.pk}}" title="editar"> 
               <i class="fas fa-pencil-alt">
               </i> 
-             
               </a>
               {% endif %}
+              {% endfor %}
               </td>
-
-              
-           
             </tr>
              {% endif %}
             {% endfor %}

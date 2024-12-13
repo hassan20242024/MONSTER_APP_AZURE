@@ -497,6 +497,7 @@ def cambiar_estado_ensayo(request, pk):
     }
    return render(request, "secuencias/cambiar_estado_ensayo.html", context)
 
+@login_required
 def mantenimientos_periodicos(request):
     titulo="Mantenimientos Periódicos"
     lavado_buzo=Lavado_buzo.objects.all()
@@ -566,7 +567,7 @@ def calificaciones_realizadas(request):
     }
     return render(request, "secuencias/calificaciones_realizadas.html", context)
 
-
+@login_required
 def mantenimientos_buzos_Check_form(request):
    #date_joineds = datetime.datetime.now()
     #progrmado = date_joined + datetime.timedelta(days=30)
@@ -676,12 +677,12 @@ def mantenimientos_buzos_Check_form(request):
      for id in calificacion_realizada:  
          calificacion=Lavado_buzo.objects.get(pk=id)
          calificacion.status_calificacion= Lavado_buzo.Status_calificacion.PROGRAMADO
-         calificacion.fecha_calificacion= datetime.datetime.now() +  relativedelta(months= 6)
+         calificacion.fecha_calificacion= datetime.datetime.now() +  relativedelta(months= 12)
          #mantenimientos_test.fecha_test_diagnostico= Lavado_buzo.progrmado
          #mantenimientos_test.fecha_alerta_inferior_test= Lavado_buzo.limite_inferior
-         calificacion.fecha_alerta_inferior_calificacion= datetime.datetime.now() + relativedelta(months= 5) 
+         calificacion.fecha_alerta_inferior_calificacion= datetime.datetime.now() + relativedelta(months= 11) 
          #mantenimientos_test.fecha_alerta_superior_test= Lavado_buzo.limite_superior
-         calificacion.fecha_alerta_superior_calificacion= datetime.datetime.now() + relativedelta(months= 7)
+         calificacion.fecha_alerta_superior_calificacion= datetime.datetime.now() + relativedelta(months= 13)
          calificacion.save()
          calificacion.pk = None #Crea una copia 
          calificacion.status_calificacion= Lavado_buzo.Status_calificacion.REALIZADO
@@ -705,6 +706,7 @@ def mantenimientos_buzos_Check_form(request):
    messages.success(request, "Registro actualizado exitosamente")
    return redirect("mantenimientos_periodicos")
 
+@login_required
 def cambiar_estado_secuencias(request):
    if request.method=="POST":
      estado_impresion=request.POST.getlist("imprimir")
@@ -735,6 +737,7 @@ def cambiar_estado_secuencias(request):
    messages.success(request, "Registro actualizado exitosamente")
    return redirect("proceso_secuencias_en_curso")
 
+@login_required
 def cambiar_estado_validada_revisada(request):
    if request.method=="POST":
      estado_validar=request.POST.getlist("validar_revisar")

@@ -31,6 +31,8 @@
               <br>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                   <a href="{% url 'crear_secuencias' %}" id="nuevaSecuencia" class="btn btn-primary" style="background:#486af3c7" data-bs-target="#crear_secuencias_en_curso" data-bs-toggle="modal"><span class="fa fa-plus-circle"></span> Nueva secuencia</a>
+                  {% for group in request.user.groups.all %}
+                  {% if group.name == 'Analista' %}       
                   <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                     <button type="button" style="background:#486af3b8" class="btn btn-primary" data-toggle="collapse" data-target="#validarChecked" data-target="#demo2" aria-controls="demo2" id="botonValidarSecuencia"  colspan="" onclick="ocultarPe()"><span class="fa fa-thumbs-up"></span> Validar</button>
                   
@@ -54,6 +56,8 @@
   
                     </div>
                   </div>
+                  {% endif %}
+                  {% endfor %}
 
                   </div>
         </div>
@@ -75,7 +79,6 @@
                                 <th class="text-center">Protocolos/Métodos</th>
                                 <th class="text-center">Parámetros</th>
                                 <th class="text-center">Muestras/Placebos/MP...</th>
-                                {% if perms.Secuencias.view_usuario_impresion %}
                                 <th  id="validarChecked"  class="collapse multi-collapse text-center">Validar</th>
                                 <th  id="invalidarChecked"  class="collapse multi-collapse text-center" >Invalidar: </th>
                                 <th  id="invalidarChecked1"  class="collapse multi-collapse text-center" >Invalidar</th>
@@ -88,7 +91,6 @@
                                 <th  id="invalidarChecked8"  class="collapse multi-collapse text-center" >Invalidar</th>
                                 <th  id="invalidarChecked9"  class="collapse multi-collapse text-center" >Invalidar</th>
                                 <th class="text-center">Editar</th>
-                                {% endif %}
                             </tr>
                         </thead>
                         <tbody id="myTable">
@@ -120,8 +122,9 @@
                                 <td data-toggle="collapse" data-target="#demo1" class="accordion-toggle text-center" colspan="" class="hiddenRow"> {% if item.parametro_sq.id == None %}
                                   
                                   <div class="accordian-body collapse" id="demo1"> {{item.muestras.nombre_muestra}} {{item.muestras.lote_muestra}} {{item.muestras.codigo_muestra_producto}} </div>Etapa: {{item.muestras.etapa}}
-                                  
+                                  {% if item.metodo == None %}
                                   <a href="{% url 'agregar_otra_secuencia_muestra' item.pk %}" title="Agregar muestra" class="text-center"><span class="fa fa-plus-circle" ></span></a>
+                                  {% endif %}
                                   {% else %}
                                   {% for p in item.protocolo.muestras_y_Placebos.all %}
                                   Código: {{p.codigo_muestra_producto}}. 
@@ -129,7 +132,6 @@
                                   {% endif %}
                                 </td>
                                 
-                                {% if perms.Secuencias.view_usuario_impresion %}
                                 <td  id="validarChecked"  class="collapse multi-collapse text-center">
                                   <span><input type="checkbox" onChange="ocultarEstado_invalidar(this);" name="validar_revisar" id="id"  value="{{item.id}}" title="validar"></span>
                                 </td>
@@ -179,7 +181,6 @@
                                 
                                   </td>
 
-                                  {% endif %}
                                   
                             </tr >
                             <script>
@@ -485,18 +486,23 @@
       let metodo = document.forms["myFormCreacion"]["metodo"].selectedIndex;
       let muestras = document.forms["myFormCreacion"]["muestras"].selectedIndex;
       let observaciones = document.forms["myFormCreacion"]["observaciones"].value;
-        if (protocolo_proceso == "" && protocolo == "" && metodo == "" || protocolo_proceso == "" && metodo=="" &&      parametro_sq=="" || protocolo_proceso == "" && protocolo == "" && muestras == "" ) {
+      
+        if (protocolo_proceso == "" && protocolo == "" && metodo == "" || protocolo_proceso == "" && metodo=="" && parametro_sq=="" || protocolo_proceso == "" && protocolo == "" && muestras == "" ) {
         alert("Todos los campos son obligatorios");
-        e.preventDefault();}
+        event.preventDefault();return}
+        if (sistema == "") {
+        alert("Debe seleccionar un sistema HPLC/UHPLC")
+        event.preventDefault();return}
         if (observaciones == "") {
-        alert("favor registre el campo de observaciones")
-        e.preventDefault();}
+        alert("Por favor registre el campo de observaciones")
+        event.preventDefault();return}
         if (protocolo == "" && muestras=="" && metodo=="") {
         alert("Todos los campos son obligatorios");
-        e.preventDefault();}
+        event.preventDefault();return}
         if (nombre.length <= 8) {
         alert("El nombre de secuencia es muy corto!");
-        e.preventDefault();}
+        event.preventDefault();return
+      }
       event.preventDefault();
       Swal.fire({
     title: "Está seguro?",
