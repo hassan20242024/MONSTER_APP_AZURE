@@ -106,6 +106,8 @@ class Secuencias(models.Model):
     #muestras=models.ManyToManyField(to=Muestras_y_Placebos, blank=False)
     muestras=models.ForeignKey(to=Muestras_y_Placebos, on_delete=models.CASCADE, verbose_name="Muestras", null=True, blank=True)
     fecha_invalidar=models.DateTimeField(verbose_name="Fecha de Invalidéz", null=True, blank=True)
+    fecha_configuracion_protocolo_metodo=models.DateTimeField(verbose_name="Fecha Configuracion Protocolo de Metodo", null=True, blank=True)
+    fecha_configuracion_protocolo_proceso=models.DateTimeField(verbose_name="Fecha Configuracion Protocolo de Proceso", null=True, blank=True)
     fecha_validar=models.DateTimeField(verbose_name="Fecha de Validación", null=True, blank=True)
     fecha_impresion=models.DateTimeField(verbose_name="Fecha de Impresión", null=True, blank=True)
     fecha_reporte=models.DateTimeField(verbose_name="Fecha de Reporte", null=True, blank=True)
@@ -121,8 +123,8 @@ class Secuencias(models.Model):
     auditar=models.CharField(max_length=250, verbose_name="Auditada por",  null=True, blank=True)
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['protocolo', 'parametro_sq', 'fecha_invalidar'], name='unique'),
-            models.UniqueConstraint(fields=['protocolo_proceso', 'muestras', 'fecha_invalidar'], name='unique_intro_nue'),
+            models.UniqueConstraint(fields=['protocolo', 'parametro_sq', 'fecha_configuracion_protocolo_metodo'], name='unique'),
+            models.UniqueConstraint(fields=['protocolo_proceso', 'muestras', 'fecha_configuracion_protocolo_proceso'], name='unique_intro_nue'),
         ]
     
     def nombre_Secuencia(self):

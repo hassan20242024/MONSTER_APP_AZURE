@@ -80,6 +80,10 @@ def crear_secuencias_en_curso(request):
        
         if form.is_valid() and secuencias1 == pkt:
             form.save()
+            #if Secuencias.objects.filter("protocolo_proceso") == None:
+            Secuencias.objects.update(
+             fecha_configuracion_protocolo_metodo=datetime.datetime.now()
+        )
             messages.success(request, "Creada con éxito")
            
             return redirect("crear_secuencias_en_curso")
@@ -313,16 +317,13 @@ def chart_js_proceso_secuencias_en_curso(request):
 @login_required
 def editar_secuencias_en_curso(request, pk):
     titulo="Crear Secuencias"
-  
     secuencia=Secuencias.objects.get(id=pk)
     protocolos=Protocolos.objects.all()
     parametros=Parametro.objects.all()
     sistema=Sistema.objects.all()
     sq=Secuencias.objects.filter(id=pk)
     protocolo_proceso =Proceso.objects.all()
-
     ensayo=Ensayo.objects.all()
-
    
     if request.method == "POST":
         form = secuenciasForm(request.POST, instance=secuencia)
@@ -359,15 +360,17 @@ def agregar_otra_secuencia_parametro(request, pk):
     protocolos=Protocolos.objects.all()
     parametros=Parametro.objects.all()
     sistema=Sistema.objects.all()
-
+    date_joined = datetime.datetime.now()
     ensayo=Ensayo.objects.all()
-
    
     if request.method == "POST":
         form = secuenciasForm(request.POST)
        
         if form.is_valid():
             form.save()
+            Secuencias.objects.filter(id=pk).update(
+        status="Invalida", fecha_invalidar=date_joined
+        )
             messages.success(request, "La secuencia ha sido agregada")
            
             return redirect("crear_secuencias_en_curso")
@@ -380,9 +383,6 @@ def agregar_otra_secuencia_parametro(request, pk):
     context={
         "titulo":titulo,
         "form":form,
-        
-        
-        
         "protocolos":protocolos,
         "parametros":parametros,
          "ensayo":ensayo,

@@ -91,9 +91,13 @@
                 <label>Observaciones</label>
                 <textarea name="observaciones" value="{{item.observaciones}}" cols="40" rows="4" class="numberinput form-control gj-textbox-md" id="id_observaciones" required="">{{item.observaciones}}</textarea><br>
              </div>
-                <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
-                <input value="0001-01-01" type="text" name="fecha_invalidar" class="numberinput form-control gj-textbox-md " id="fecha_invalidar" width="" data-datepicker="true" style="display: none;"> 
-                <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
+             <div style="display: none;">
+              {{ form.fecha_invalidar|as_crispy_field  }}
+              {{ form.fecha_configuracion_protocolo_metodo|as_crispy_field  }}
+              {{ form.fecha_configuracion_protocolo_proceso|as_crispy_field  }}
+             </div>
+
+
             {% endfor %}
          
             <div class="modal-footer">

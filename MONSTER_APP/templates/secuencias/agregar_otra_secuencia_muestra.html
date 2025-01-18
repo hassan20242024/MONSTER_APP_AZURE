@@ -46,18 +46,17 @@
                               {% endfor %}
                             </select>
                            </div>
-        
-
                     </div>
-                    
                 </div>
               </div>
             <div style="display: none;">
-                <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
-                <input value="0001-01-01" type="text" name="fecha_invalidar" class="numberinput form-control gj-textbox-md " id="fecha_invalidar" width="" data-datepicker="true"  > 
-                <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
+            <!--FECHAS DE CONFIGURACION PARA EVITAR REGISTROS DUPLICADOS INICIO--> 
+            {% now "Y-m-d G:i:s" as today_str %}
+            <input value=" {{ today_str }}" type="text" name="fecha_configuracion_protocolo_metodo" class="numberinput form-control gj-textbox-md " id="fecha_configuracion_protocolo_metodo" width="" data-datepicker="true"> 
+            <input value="0001-01-01" type="text" name="fecha_configuracion_protocolo_proceso" class="numberinput form-control gj-textbox-md " id="fecha_configuracion_protocolo_proceso" width="" data-datepicker="true"> 
+            <!--FECHAS DE CONFIGURACION PARA EVITAR REGISTROS DUPLICADOS FIN--> 
        
-
+              {{ form.fecha_invalidar|as_crispy_field  }}
               {{ form.nombre|as_crispy_field  }}
               {{ form.fecha_Inicio|as_crispy_field  }}
               {{ form.protocolo_proceso|as_crispy_field  }}
