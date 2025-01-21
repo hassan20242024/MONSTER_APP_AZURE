@@ -26,8 +26,9 @@
           <form action="" id="myModelForm" method="POST">    {% csrf_token %}
           
             <div class="row gy-4 gy-xl-4 p-4 p-xl-4">
-              {% if perms.auth.view_user %}
-              <div class="col-12 col-md-6">
+              {% for group in request.user.groups.all %}
+              {% if group.name == 'Administrador' %}       
+                  <div class="col-12 col-md-6">
                 {{ form.nombre|as_crispy_field  }}
               </div>
               <div class="col-12 col-md-6">
@@ -47,6 +48,8 @@
                 {{ form.muestras|as_crispy_field  }}
                 {{ form.fecha_invalidar|as_crispy_field  }}
                 {{ form.fecha_validar|as_crispy_field  }}
+                {{ form.fecha_configuracion_protocolo_metodo|as_crispy_field  }}
+                {{ form.fecha_configuracion_protocolo_proceso|as_crispy_field  }}
                 {{ form.fecha_impresion|as_crispy_field  }}
                 {{ form.fecha_reporte|as_crispy_field  }}
                 {{ form.fecha_auditada|as_crispy_field  }}
@@ -83,6 +86,8 @@
               {{ form.muestras|as_crispy_field  }}
               {{ form.fecha_invalidar|as_crispy_field  }}
               {{ form.fecha_validar|as_crispy_field  }}
+              {{ form.fecha_configuracion_protocolo_metodo|as_crispy_field  }}
+              {{ form.fecha_configuracion_protocolo_proceso|as_crispy_field  }}
               {{ form.fecha_impresion|as_crispy_field  }}
               {{ form.fecha_reporte|as_crispy_field  }}
               {{ form.fecha_auditada|as_crispy_field  }}
@@ -101,7 +106,7 @@
 
                 </div>
                 </div>
-            </div> {% endif %}
+            </div> {% endif %} {% endfor %}
           </form>
 
         </div>

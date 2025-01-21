@@ -11,6 +11,9 @@ urlpatterns=[
     #path("actualizar_secuencias_impresas/<int:pk>/", views.actualizar_secuencias_impresas, name="actualizar_secuencias_impresas"),
     #path("actualizar_secuencias_reportadas/<int:pk>/", views.actualizar_secuencias_reportadas, name="actualizar_secuencias_reportadas"),
     path("crear_secuencias_en_curso/",views.crear_secuencias_en_curso, name="crear_secuencias_en_curso"),
+    path("secuencias_en_curso_protocolo_metodo/",views.secuencias_en_curso_protocolo_metodo, name="secuencias_en_curso_protocolo_metodo"),
+    path("secuencias_en_curso_protocolo_proceso/",views.secuencias_en_curso_protocolo_proceso, name="secuencias_en_curso_protocolo_proceso"),
+    path("secuencias_en_curso_otro/",views.secuencias_en_curso_otro, name="secuencias_en_curso_otro"),
     path("editar_secuencias_en_curso/<int:pk>/", views.editar_secuencias_en_curso, name="editar_secuencias_en_curso"),
     path("agregar_otra_secuencia_parametro/<int:pk>/", views.agregar_otra_secuencia_parametro, name="agregar_otra_secuencia_parametro"),
     path("agregar_otra_secuencia_muestra/<int:pk>/", views.agregar_otra_secuencia_muestra, name="agregar_otra_secuencia_muestra"),
@@ -25,6 +28,7 @@ urlpatterns=[
     path("calificaciones_realizadas/",views.calificaciones_realizadas, name="calificaciones_realizadas"),
     path("mantenimientos_buzos_Check_form/", views.mantenimientos_buzos_Check_form, name="mantenimientos_buzos_Check_form"),
     path("cambiar_estado_secuencias/", views.cambiar_estado_secuencias, name="cambiar_estado_secuencias"),
+    path("cambiar_estado_registrada/", views.cambiar_estado_registrada, name="cambiar_estado_registrada"),
     path("cambiar_estado_validada_revisada/", views.cambiar_estado_validada_revisada, name="cambiar_estado_validada_revisada"),
 
 

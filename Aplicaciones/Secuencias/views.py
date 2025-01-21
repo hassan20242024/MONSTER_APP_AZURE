@@ -115,7 +115,44 @@ def crear_secuencias_en_curso(request):
     }
     return render(request, "secuencias/crear_secuencias_en_curso.html", context)
 
+
+
 @login_required
+def secuencias_en_curso_protocolo_metodo(request):
+    sistema=Sistema.objects.all()
+    protocolos=Protocolos.objects.all()
+    parametros=Parametro.objects.all()
+    context = {
+        "sistema":sistema,
+        "protocolos":protocolos,
+        "parametros":parametros,
+    }
+    return render(request, "secuencias/crear_secuencias_protocolo_metodos.html", context)
+
+@login_required
+def secuencias_en_curso_protocolo_proceso(request):
+    sistema=Sistema.objects.all()
+    protocolos_proceso=Proceso.objects.all()
+    muestras=Muestras_y_Placebos.objects.all()
+    context = {
+        "sistema":sistema,
+        "protocolos_proceso":protocolos_proceso,
+        "muestras":muestras,
+    }
+    return render(request, "secuencias/crear_secuencias_protocolo_proceso.html", context)
+
+@login_required
+def secuencias_en_curso_otro(request):
+    sistema=Sistema.objects.all()
+    metodo=Metodo.objects.all()
+    muestras=Muestras_y_Placebos.objects.all()
+    context = {
+        "sistema":sistema,
+        "metodo":metodo,
+        "muestras":muestras,
+    }
+    return render(request, "secuencias/crear_secuencias_otro.html", context)
+
 def proceso_secuencias_en_curso(request):
     secuenicas=Secuencias.objects.all()
     protocolos=Protocolos.objects.all()
@@ -368,9 +405,6 @@ def agregar_otra_secuencia_parametro(request, pk):
        
         if form.is_valid():
             form.save()
-            Secuencias.objects.filter(id=pk).update(
-        status="Invalida", fecha_invalidar=date_joined
-        )
             messages.success(request, "La secuencia ha sido agregada")
            
             return redirect("crear_secuencias_en_curso")
@@ -738,6 +772,47 @@ def cambiar_estado_secuencias(request):
    return redirect("proceso_secuencias_en_curso")
 
 @login_required
+def cambiar_estado_registrada(request):
+   if request.method=="POST":
+     estado_registrado_protocolo_metodo=request.POST.getlist("registrar_protocolo_metodo")
+     estado_registrado_protocolo_proceso=request.POST.getlist("registrar_protocolo_proceso")
+     estado_registrado_otro=request.POST.getlist("registrar_otro")
+
+     for id in estado_registrado_protocolo_metodo: 
+         registrado_protocolo_metodo=Secuencias.objects.get(pk=id)
+         registrado_protocolo_metodo.status= Secuencias.Status.REGISTRADA
+         registrado_protocolo_metodo.invalidar_Secuencia= None
+         registrado_protocolo_metodo.fecha_invalidar= None
+         registrado_protocolo_metodo.invalidar =  None
+         registrado_protocolo_metodo.fecha_configuracion_protocolo_metodo= "0001-01-01"
+         registrado_protocolo_metodo.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
+         registrado_protocolo_metodo.save()
+         
+     for id in estado_registrado_protocolo_proceso:
+         estado_registrado_protocolo_proceso=Secuencias.objects.get(pk=id)
+         estado_registrado_protocolo_proceso.status= Secuencias.Status.REGISTRADA
+         estado_registrado_protocolo_proceso.invalidar_Secuencia= None
+         estado_registrado_protocolo_proceso.fecha_invalidar= None
+         estado_registrado_protocolo_proceso.invalidar =  None
+         estado_registrado_protocolo_proceso.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_registrado_protocolo_proceso.fecha_configuracion_protocolo_proceso= "0001-01-01"
+         estado_registrado_protocolo_proceso.save()
+
+     for id in estado_registrado_otro:
+         estado_registrado_otro=Secuencias.objects.get(pk=id)
+         estado_registrado_otro.status= Secuencias.Status.REGISTRADA
+         estado_registrado_otro.invalidar_Secuencia= None
+         estado_registrado_otro.fecha_invalidar= None
+         estado_registrado_otro.invalidar =  None
+         estado_registrado_otro.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_registrado_otro.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
+         estado_registrado_otro.save()
+
+   messages.success(request, "Registro actualizado exitosamente")
+   return redirect("crear_secuencias_en_curso")
+
+
+@login_required
 def cambiar_estado_validada_revisada(request):
    if request.method=="POST":
      estado_validar=request.POST.getlist("validar_revisar")
@@ -756,13 +831,15 @@ def cambiar_estado_validada_revisada(request):
          validar.status= Secuencias.Status.REVISADA
          validar.validar = str(User.objects.get(username=request.user)) #usuario que valida
          validar.fecha_validar= datetime.datetime.now()
-         validar.fecha_invalidar = "0001-01-01"
+         #validar.fecha_invalidar = "0001-01-01"
          validar.save()
      for id in estado_invalidar: 
          estado_invalidar=Secuencias.objects.get(pk=id)
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.PROBLEMAS_EQUIPO_1
          estado_invalidar.save()
      for id in estado_invalidar_1: 
@@ -770,6 +847,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.PROBLEMAS_EQUIPO_2
          estado_invalidar.save()
      for id in estado_invalidar_2: 
@@ -777,6 +856,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.PROBLEMAS_COLUMNA
          estado_invalidar.save()
      for id in estado_invalidar_3: 
@@ -784,6 +865,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.INCUMPLIMIENTO_SST_1
          estado_invalidar.save()
      for id in estado_invalidar_4: 
@@ -791,6 +874,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.INCUMPLIMIENTO_SST_2
          estado_invalidar.save()
      for id in estado_invalidar_5: 
@@ -798,6 +883,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.INCUMPLIMIENTO_SST_3
          estado_invalidar.save()
      for id in estado_invalidar_6: 
@@ -805,6 +892,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.PROBLEMAS_FM
          estado_invalidar.save()
      for id in estado_invalidar_7: 
@@ -812,6 +901,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.PROBLEMAS_RED
          estado_invalidar.save()
      for id in estado_invalidar_8: 
@@ -819,6 +910,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.PROBLEMAS_FE
          estado_invalidar.save()
      for id in estado_invalidar_9: 
@@ -826,6 +919,8 @@ def cambiar_estado_validada_revisada(request):
          estado_invalidar.status= Secuencias.Status.INVALIDA
          estado_invalidar.invalidar =  str(User.objects.get(username=request.user)) #usuario que invalida
          estado_invalidar.fecha_invalidar= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_metodo= datetime.datetime.now()
+         estado_invalidar.fecha_configuracion_protocolo_proceso= datetime.datetime.now()
          estado_invalidar.invalidar_Secuencia= Secuencias.Invalidar_Secuencia.OTROS
          estado_invalidar.save()
    messages.success(request, "Registro actualizado exitosamente")

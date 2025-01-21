@@ -32,7 +32,7 @@
           {% if group.name == 'Administrador' %}       
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
               <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" style="background:#486af3b8" class="btn btn-primary" data-toggle="collapse" data-target="#validarChecked" data-target="#demo2" aria-controls="demo2" id="botonValidarSecuencia"  colspan="" onclick="ocultarPe()"><span class="fa fa-thumbs-up"></span> Validar</button>
+                <button type="button" style="background:#486af3b8" class="btn btn-primary" data-toggle="collapse" data-target="#validarChecked" data-target="#demo2" aria-controls="demo2" id="botonValidarSecuencia"  colspan="" onclick="ocultarPe()"><span class="fa fa-thumbs-up"></span> Listar</button>
               </div>
               </div>
           {% endif %}
@@ -43,7 +43,7 @@
                 </div>
             <div class="card">
               <div class="container-fluid">
-                <form action="{% url 'cambiar_estado_validada_revisada' %}" method="POST" id="myModelFormActualizar" >{% csrf_token %}
+                <form action="{% url 'cambiar_estado_registrada' %}" method="POST" id="myModelFormActualizar" >{% csrf_token %}
                   <table class="table table-bordered display" id="example3">
                       <thead>
                           <tr class=" all text-center">
@@ -54,7 +54,7 @@
                               <th class="all text-center">Muestras</th>
                               <th class="all text-center">Causa</th>
                               <th class="all text-center" >Invalidada por/Fecha</th>
-                              <th  id="validarChecked"  class="collapse multi-collapse text-center">Validar</th>
+                              <th  id="validarChecked"  class="collapse multi-collapse text-center">Listar</th>
                             </tr>
                       </thead>
                       <tbody id="myTable">
@@ -92,8 +92,18 @@
                           </td>
                   <td class="text-danger">{{item.invalidar_Secuencia}}</td>
                           <td class="all text-center">{{item.invalidar}}/ <span>{{item.fecha_invalidar|date:'Y-m-d H:i'}}</span></td>
+                         
                           <td  id="validarChecked"  class="collapse multi-collapse text-center">
-                            <span><input type="checkbox" onChange="ocultarEstado_invalidar(this);" name="validar_revisar" id="id"  value="{{item.id}}" title="validar"></span>
+                            {% if item.protocolo.id > 0  %}
+                            <span><input type="checkbox" onChange="ocultarEstado_invalidar(this);" name="registrar_protocolo_metodo" id="id"  value="{{item.id}}" title="validar"></span>
+                            {% endif %}
+                            {% if item.protocolo_proceso.id > 0  %}
+                            <span><input type="checkbox" onChange="ocultarEstado_invalidar(this);" name="registrar_protocolo_proceso" id="id"  value="{{item.id}}" title="validar"></span>
+                            {% endif %}
+                            {% if item.metodo.id > 0  %}
+                            <span><input type="checkbox" onChange="ocultarEstado_invalidar(this);" name="registrar_otro" id="id"  value="{{item.id}}" title="validar"></span>
+                            {% endif %}
+
                           </td>
                   </tr>
                           {% endif %}

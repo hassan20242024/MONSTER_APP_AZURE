@@ -26,7 +26,8 @@
           <form action="" id="myModelForm" method="POST">    {% csrf_token %}
           
             <div class="row gy-4 gy-xl-4 p-4 p-xl-4">
-              {% if perms.auth.view_user %}
+              {% for group in request.user.groups.all %}
+              {% if group.name == 'Administrador' %}       
               <div class="col-12 col-md-6">
                 {{ form.nombre|as_crispy_field  }}
               </div>
@@ -45,9 +46,12 @@
                 {{ form.parametro_sq|as_crispy_field  }}
                 {{ form.metodo|as_crispy_field  }}
                 {{ form.muestras|as_crispy_field  }}
-                <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
-                <input value="" type="text" name="fecha_invalidar" class="numberinput form-control gj-textbox-md " id="fecha_invalidar" width="" data-datepicker="true" style="display: none;" > 
-                <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
+                <!--FECHAS DE CONFIGURACION PARA EVITAR REGISTROS DUPLICADOS INICIO--> 
+               {% now "Y-m-d G:i:s" as today_str %}
+               <input value=" {{ today_str }}" type="text" name="fecha_configuracion_protocolo_metodo" class="numberinput form-control gj-textbox-md " id="fecha_configuracion_protocolo_metodo" width="" data-datepicker="true" style="display: none;" > 
+               <input value="{{ today_str }}" type="text" name="fecha_configuracion_protocolo_proceso" class="numberinput form-control gj-textbox-md " id="fecha_configuracion_protocolo_proceso" width="" data-datepicker="true" style="display: none;" > 
+               <!--FECHAS DE CONFIGURACION PARA EVITAR REGISTROS DUPLICADOS FIN--> 
+                {{ form.fecha_invalidar|as_crispy_field  }}
                 {{ form.fecha_validar|as_crispy_field  }}
                 {{ form.fecha_impresion|as_crispy_field  }}
                 {{ form.fecha_reporte|as_crispy_field  }}
@@ -83,9 +87,12 @@
               {{ form.parametro_sq|as_crispy_field  }}
               {{ form.metodo|as_crispy_field  }}
               {{ form.muestras|as_crispy_field  }}
-              <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
-              <input value="" type="text" name="fecha_invalidar" class="numberinput form-control gj-textbox-md "  id="fecha_invalidar" width="" data-datepicker="true" style="display: none;" > 
-              <!--FECHA INVALIDAR PARA EVITAR REGISTROS DUPLICADOS--> 
+              <!--FECHAS DE CONFIGURACION PARA EVITAR REGISTROS DUPLICADOS INICIO--> 
+              {% now "Y-m-d G:i:s" as today_str %}
+              <input value=" {{ today_str }}" type="text" name="fecha_configuracion_protocolo_metodo" class="numberinput form-control gj-textbox-md " id="fecha_configuracion_protocolo_metodo" width="" data-datepicker="true" style="display: none;" > 
+              <input value="{{ today_str }}" type="text" name="fecha_configuracion_protocolo_proceso" class="numberinput form-control gj-textbox-md " id="fecha_configuracion_protocolo_proceso" width="" data-datepicker="true" style="display: none;" > 
+              <!--FECHAS DE CONFIGURACION PARA EVITAR REGISTROS DUPLICADOS FIN--> 
+              {{ form.fecha_invalidar|as_crispy_field  }}
               {{ form.fecha_validar|as_crispy_field  }}
               {{ form.fecha_impresion|as_crispy_field  }}
               {{ form.fecha_reporte|as_crispy_field  }}
@@ -105,7 +112,7 @@
 
                 </div>
                 </div>
-            </div> {% endif %}
+            </div> {% endif %} {% endfor %}
           </form>
 
         </div>
