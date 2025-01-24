@@ -38,46 +38,24 @@ def adm_inicio(request):
      #registro_total_protocolo_metodos_reales= registro_total_protocolo_metodos - 1
      dataset = Protocolos.objects \
        .values('fecha_final__month')\
-        .annotate(Finalizado=Count('fecha_final__month', filter=Q(estado_protocolo="6", fecha_final__year=2024)),
+        .annotate(Finalizado=Count('fecha_final__month', filter=Q(estado_protocolo="6", fecha_final__year=2025)),
+                 ) 
+     dataset1 = Protocolos.objects \
+       .values('fecha_final__month')\
+        .annotate(Finalizado=Count('fecha_final__month', filter=Q(estado_protocolo="6", fecha_final__year=2026)),
                  ) 
      #GRAFICO PARA PROTOCOLOS DE PROCESO FINALIZADOS
      registro_total_protocolo_proceso = Proceso.objects.count()
      #registro_total_protocolo_proceso_reales= registro_total_protocolo_proceso - 1
+
      datasetPr = Proceso.objects \
        .values('fecha_final__month')\
-        .annotate(Finalizado=Count('fecha_final__month', filter=Q(estado_del_proceso="6", fecha_final__year=2024)),
+        .annotate(Finalizado=Count('fecha_final__month', filter=Q(estado_del_proceso="6", fecha_final__year=2025)),
+                 )   
+     datasetPr1 = Proceso.objects \
+       .values('fecha_final__month')\
+        .annotate(Finalizado=Count('fecha_final__month', filter=Q(estado_del_proceso="6", fecha_final__year=2026)),
                  )              
-#extra(select={'month': 'DATE_FORMAT(date, '%B')'})
-        #.order_by('-fecha_final__month')
-   #fecha = datetime.datetime.strptime(dataset, "%d/%m/%Y").strftime("%Y-%m-%d")
-
-     #categories = []
-     #Finalizado = list()
-  
-     #for entry in dataset:
-        ##Finalizado.append(entry['Finalizado'])
-     #Finalizado_series = {
-        #'name': 'Finalizado',
-        #'data': Finalizado,
-        #'colorByPoint': 'True',
-        #'showInLegen': 'False',
-        
-   ###'chart': {'type': 'column' },
-        #'title': {'text': ''},
-        #'xAxis': [
-            #{'categories': categories},
-        #],
-        #'series': [Finalizado_series],
-    #}
-     #chart1 = {
-        #'chart': {'type': 'line' },
-        #'title': {'text': ''},
-        #'xAxis': {'categories': categories},
-        #'series': [Finalizado_series]
-    #}
-
-     #dump = json.dumps(chart)
-     #dump1 = json.dumps(chart1)
 
      dataset_motivo = Protocolos.objects.values("estado_protocolo__estado_motivo").annotate(
           ejecucion=Count("estado_protocolo__estado_motivo", filter=Q(estado_protocolo="1")),
@@ -86,20 +64,15 @@ def adm_inicio(request):
                  criterio=Count("estado_protocolo__estado_motivo", filter=Q(estado_protocolo="4")),
          Listado=Count("estado_protocolo__estado_motivo", filter=Q(estado_protocolo="5")),
          finalizado=Count("estado_protocolo__estado_motivo", filter=Q(estado_protocolo="6")),
-       
-        
-     
         
      ).exclude(estado_protocolo="7")
      categories = []
      ejecucion = list()
      falta_insumos = list()
      metodologia = list()
-       
      criterio = list()
      Listado = list()
      finalizado = list()
- 
    
      for entry in dataset_motivo:
          categories.append('%s ' % entry['estado_protocolo__estado_motivo'])
@@ -141,29 +114,23 @@ def adm_inicio(request):
         'data': finalizado,
         'color': '#1aa1c0',
    } 
-
-    
     
      chart2 = {
         'chart': {'type': 'bar'},
         'title': {'text': ''},
          "credits": "false",
          
-         
         'xAxis': {'categories': categories},
         'series': [ejecucion_series,falta_insumos_series,metodologia_series,criterio_series,   listadoseries,finalizado_series,],
           "plotOptions": {
 		"bar": {
-			
 			"pointPadding": -1.9,
 			"borderWidth": 10
 		}
 	},
     } 
-    
      dump2 = json.dumps(chart2)   
      titulo="Tablero principal"
-
      #GRAFICO PARA ESTADO DE PROTOCOLOS DE PROCESO 
      dataset_motivo = Proceso.objects.values("estado_del_proceso__estado_motivo").annotate(
          Listado=Count("estado_del_proceso", filter=Q(estado_del_proceso="5")),
@@ -228,7 +195,6 @@ def adm_inicio(request):
         'series': [falta_insumos_series,finalizado_series,metodologia_series,criterio_series,listadoseries,ejecucion_series],
         "plotOptions": {
 		"bar": {
-			
 			"pointPadding": -1.9,
 			"borderWidth": 10
 		}
@@ -236,14 +202,14 @@ def adm_inicio(request):
     } 
      dump3 = json.dumps(chart3)   
      titulo="Tablero principal"
-
-
      context={
         "titulo":titulo,
        # 'chart': dump,
         #'chart1': dump1,
         "dataset":dataset,
+        "dataset1":dataset1,
          "datasetPr":datasetPr,
+         "datasetPr1":datasetPr1,
         #"Finalizado":Finalizado,
         'chart2': dump2,
         'chart3': dump3,
@@ -251,8 +217,6 @@ def adm_inicio(request):
         "registro_total_protocolo_proceso":registro_total_protocolo_proceso,
         #"registro_total_protocolo_metodos_reales":registro_total_protocolo_metodos_reales,
         #"registro_total_protocolo_proceso_reales":registro_total_protocolo_proceso_reales
-
     }
-     
      return render(request, "inicio.html", context)
 

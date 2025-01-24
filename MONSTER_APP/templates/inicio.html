@@ -7,24 +7,17 @@
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
-
     
    
 {% if user.is_authenticated %}
-<!--- Main content -->
 <section class="content">
   <div class="container-fluid">
     <div class="card-body">
       <h4 class="">Información General</h4>
     </div>
-    <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-lg-3 col-6">
-        <!-- small box -->
         <div class="small-box bg-gradient-info">
-          <!--         <div class="small-box bg-gradient-info" style="background-color: rgba(3, 168, 201, 0.992);">
- -->
           <div class="inner">
             <h3>{{registro_total_protocolo_metodos}}</h3>
 
@@ -36,11 +29,7 @@
           <a href="{% url 'protocolo_metodos' %}" class="small-box-footer">Mas información <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
-      <!-- ./col -->
       <div class="col-lg-3 col-6">
-        <!-- small box -->
-         <!--         <div class="small-box text-white" style="background-color: rgba(4, 201, 168, 0.992);">
- -->
         <div class="small-box bg-gradient-success text-white">
           <div class="inner">
             <h3>{{registro_total_protocolo_proceso}}</h3>
@@ -52,11 +41,7 @@
           <a href="{% url 'protocolo_proceso' %}" class="small-box-footer">Mas información  <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
-      <!-- ./col -->
       <div class="col-lg-3 col-6">
-        <!-- small box -->
-         <!--         <div class="small-box text-white" style="background-color: rgba(123, 2, 153, 0.697);">
- -->
         <div class="small-box bg-gradient-warning text-white" >
           <div class="inner">
             <h3>0<sup style="font-size: 20px"></sup></h3>
@@ -69,11 +54,7 @@
           <a href="#" class="small-box-footer">Mas información  <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
-      <!-- ./col -->
       <div class="col-lg-3 col-6">
-        <!-- small box -->
-         <!--        <div class="small-box text-white" style="background-color: rgba(248, 69, 69, 0.94);">
- -->
         <div class="small-box bg-gradient-danger text-white">
           <div class="inner">
             <h3>0  
@@ -87,87 +68,150 @@
           <a href="#" class="small-box-footer">Mas información  <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
-      <!-- ./col -->
     </div>
-    <!-- /.row -->
-    <!-- Main row -->
+    <!--Filas Graficos Protocolos de Metodos: Finalizados y Estados START-->
     <div class="row">
-      <!-- Left col -->
       <section class="col-lg-6 connectedSortable">
-        <!-- Custom tabs (Charts with tabs)-->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">
-              <i class="fas fa-chart-pie mr-1"></i>
-              Protocolos de Métodos Finalizados
-            </h3>
-       
-          </div><!-- /.card-header -->
-          <div class="card-body" id="container">
-           
-          </div><!-- /.card-body -->
+                <h3 class="card-title">
+                    <div class="dropdown">
+                      <a class=" dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-chart-pie mr-1"></i>
+                        <span id="header2025">Protocolos de Métodos Finalizados año 2025</span>
+                        <span id="header2026" style="display: none;">Protocolos de Métodos Finalizados año 2026</span>
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><button class="dropdown-item" type="button" onclick="habilitarAño2025()">Año 2025</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="habilitarAño2026()">Año 2026</button></li>
+                      </ul>
+                    </div> 
+                  </span>
+              </h3>
+          </div>
+
+          <!-- grafico protocolo de metodos 2025 -->
+          <div class="card-body" id="container2025">
+          </div>
+          <!-- grafico protocolo de metodos 2025 -->
+
+          <!-- grafico protocolo de metodos 2026 -->
+            <div class="card-body" id="container2026" style="display: none;" >
+            </div>
+          <!-- grafico protocolo de metodos 2026 -->
+
         </div>
+        <!--script años 2025 y 2026 protocolo metodo-->
+        <script>
+          function habilitarAño2025() {
+            var año2026 = document.getElementById('container2026');
+            var header2026 = document.getElementById('header2026');
+            var año2025 = document.getElementById('container2025');
+            var header2025 = document.getElementById('header2025');
+            if (año2026.style.display == "" && header2026.style.display == "") {
+              año2026.style.display = "none"
+              header2026.style.display = "none"
+              año2025.style.display = ""
+              header2025.style.display = ""            }
+          }
+          function habilitarAño2026() {
+            var año2026 = document.getElementById('container2026');
+            var header2026 = document.getElementById('header2026');
+            var año2025 = document.getElementById('container2025');
+            var header2025 = document.getElementById('header2025');
+            if (año2026.style.display == "none" && header2026.style.display == "none") {
+              año2026.style.display = ""
+              header2026.style.display = ""
+            }
+            if (año2025.style.display == "" && header2025.style.display == "") {
+              año2025.style.display = "none"
+              header2025.style.display = "none"
+            }
+          }
+        </script>
+        <!--script años 2025 y 2026 protocolo metodo-->
 
       </section>
-      <!-- /.Left col -->
-      <!-- right col (We are only adding the ID to make the widgets sortable)-->
       <section class="col-lg-6 connectedSortable">
-
-        <!-- Map card -->
-      
-        <!-- /.card -->
-
-        <!-- solid sales graph -->
         <div class="card bg-gradient-white">
           <div class="card-header">
             <h3 class="card-title">
               <i class="fas fa-chart-pie mr-1"></i>
               Estado de Protocolos de Métodos
             </h3>
-
           </div>
           <div class="card-body" id="containers">
           </div>
-          <!-- /.card-body -->
-
-          <!-- /.card-footer -->
         </div>
-        <!-- /.card -->
-
-        <!-- Calendar -->
-   
-        <!-- /.card -->
       </section>
-      <!-- right col -->
+
     </div>
-    <!-- /.row (main row) -->
+    <!--Filas Graficos Protocolos de Metodos: FInalizados y Estados END -->
+
+    <!--Filas Graficos Protocolos de Proceso: Finalizados y Estados START-->
     <div class="row">
-      <!-- Left col -->
       <section class="col-lg-6 connectedSortable">
-        <!-- Custom tabs (Charts with tabs)-->
         <div class="card">
-          <div class="card-header" >
-            <h3 class="card-title">
-              <i class="fas fa-chart-pie mr-1"></i>
-              Protocolos de Proceso Finalizados
-            </h3>
-       
-          </div><!-- /.card-header -->
-          <div class="card-body" id="containerPr">
-           
-          </div><!-- /.card-body -->
+          <div class="card-header">
+                <h3 class="card-title">
+                    <div class="dropdown">
+                      <a class=" dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-chart-pie mr-1"></i>
+                        <span id="headerPr2025">Protocolos de Procesos  Finalizados año 2025</span>
+                        <span id="headerPr2026" style="display: none;">Protocolos de Métodos Finalizados año 2026</span>
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><button class="dropdown-item" type="button" onclick="habilitarAñoPr2025()">Año 2025</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="habilitarAñoPr2026()">Año 2026</button></li>
+                      </ul>
+                    </div> 
+                  </span>
+              </h3>
+          </div>
+          <!-- grafico protocolo de metodos 2025 -->
+          <div class="card-body" id="containerPr2025">
+          </div>
+          <!-- grafico protocolo de metodos 2025 -->
+
+          <!-- grafico protocolo de metodos 2026 -->
+            <div class="card-body" id="containerPr2026" style="display: none;" >
+            </div>
+          <!-- grafico protocolo de metodos 2026 -->
         </div>
 
+        <!--script años 2025 y 2026 protocolo proceso-->
+        <script>
+          function habilitarAñoPr2025() {
+            var año2026 = document.getElementById('containerPr2026');
+            var header2026 = document.getElementById('headerPr2026');
+            var año2025 = document.getElementById('containerPr2025');
+            var header2025 = document.getElementById('headerPr2025');
+            if (año2026.style.display == "" && header2026.style.display == "") {
+              año2026.style.display = "none"
+              header2026.style.display = "none"
+              año2025.style.display = ""
+              header2025.style.display = ""            }
+          }
+          function habilitarAñoPr2026() {
+            var año2026 = document.getElementById('containerPr2026');
+            var header2026 = document.getElementById('headerPr2026');
+            var año2025 = document.getElementById('containerPr2025');
+            var header2025 = document.getElementById('headerPr2025');
+            if (año2026.style.display == "none" && header2026.style.display == "none") {
+              año2026.style.display = ""
+              header2026.style.display = ""
+            }
+            if (año2025.style.display == "" && header2025.style.display == "") {
+              año2025.style.display = "none"
+              header2025.style.display = "none"
+            }
+          }
+        </script>
+        <!--script años 2025 y 2026 protocolo proceso-->
+
+
       </section>
-      <!-- /.Left col -->
-      <!-- right col (We are only adding the ID to make the widgets sortable)-->
       <section class="col-lg-6 connectedSortable">
-
-        <!-- Map card -->
-      
-        <!-- /.card -->
-
-        <!-- solid sales graph -->
         <div class="card bg-gradient-white">
           <div class="card-header">
             <h3 class="card-title">
@@ -178,41 +222,25 @@
           </div>
           <div class="card-body" id="containersPr">
           </div>
-          <!-- /.card-body -->
-
-          <!-- /.card-footer -->
         </div>
-        <!-- /.card -->
-
-        <!-- Calendar -->
-   
-        <!-- /.card -->
       </section>
-      <!-- right col -->
     </div>
-  </div><!-- /.container-fluid -->
+    <!--Filas Graficos Protocolos de Proceso: Finalizados y Estados END-->
+  </div>
 </section>
-<!-- /.content -->
 
-<!--
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://code.highcharts.com/highcharts.src.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
--->
 {% block javascripts %}
-<!--Graficos-->
 <script type="">
     Highcharts.chart('containers', {{ chart2|safe }}
-      
     );
   </script>
   <script type="">
     Highcharts.chart('containersPr', {{ chart3|safe }});
   </script>
 
-
+<!--protocolo metodo 2025-->
 <script type="">
-Highcharts.chart('container', {
+Highcharts.chart('container2025', {
   credits: {
     enabled: false
 },
@@ -254,9 +282,57 @@ Highcharts.chart('container', {
       
   });
 </script>
+<!--protocolo metodo 2025-->
 
+<!--protocolo metodo 2026-->
 <script type="">
-  Highcharts.chart('containerPr', {
+  Highcharts.chart('container2026', {
+    credits: {
+      enabled: false
+  },
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: ''
+        },
+        plotOptions: {
+      column: {
+        pointPadding: 0.2,
+        borderWidth: 6
+     
+      }
+    },
+        xAxis: {
+            categories: [
+  
+            
+              {% for entry in dataset1 %} "{{ entry.fecha_final__month | month_name }}" {% if not forloop.last %}, {% endif %}{% endfor %}
+            ]
+        },
+        series: [{
+            name: 'Finalizado',
+            data: [
+              {% for entry in dataset1 %}{{ entry.Finalizado }}{% if not forloop.last %}, {% endif %}{% endfor %}
+              
+            ],
+            //colorByPoint: 'true',
+            //showInLegen:"false",
+           
+            
+            //backgroundColor: 'red'
+            color: "#1088b1",
+            borderColor: "#d7e2e8   ",
+        }, 
+      ]
+        
+    });
+  </script>
+  <!--protocolo metodo 2026-->  
+
+<!--protocolo proceso 2025-->
+<script type="">
+  Highcharts.chart('containerPr2025', {
     credits: {
     enabled: false
 },
@@ -294,6 +370,50 @@ Highcharts.chart('container', {
         
     });
   </script>
+<!--protocolo proceso 2025-->
+
+<!--protocolo proceso 2026-->
+<script type="">
+  Highcharts.chart('containerPr2026', {
+    credits: {
+    enabled: false
+},
+    
+        chart: {
+            type: 'column'
+        },
+        plotOptions: {
+		column: {
+			pointPadding: 0.2,
+			borderWidth: 6
+		}
+	},
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: [
+  
+            
+              {% for entry in datasetPr1 %} "{{ entry.fecha_final__month | month_name }}" {% if not forloop.last %}, {% endif %}{% endfor %}
+            ]
+        },
+        series: [{
+            name: 'Finalizado',
+            data: [
+              {% for entry in datasetPr1 %}{{ entry.Finalizado }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            ],
+             //colorByPoint: 'true',
+          showInLegen:"false",
+          color: "#1088b1",
+          borderColor: "#d7e2e8   ",
+        }, 
+      ]
+        
+    });
+  </script>
+<!--protocolo proceso 2026-->
+
   {% endblock %}
   {% else %}
 <!-- Inicia sesión -->
